@@ -1,0 +1,137 @@
+#set -g default-terminal 'xterm-256color'
+set -g default-terminal 'tmux-256color'
+set -ga terminal-overrides ",*256col*:Tc"
+set -ga terminal-overrides '*:Ss=\E[%p4%d q:Se=\E[ q'
+#set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
+
+setw -g mode-keys vi
+
+# config a key to set syn-pane
+bind -r S setw synchronize-panes 
+
+
+# word sep 
+set -g word-separators "!\"#$%&'()*+,/:;<=>?@[\\]^`{|}~"
+#set -g word-separators "!\"#$%&'()*+-,./:;<=>?@[\\]^`{|}~"
+
+# ===============================================================================
+# ----- dracula theme for tmux status bar --------------------------
+#set -g @plugin 'dracula/tmux'
+set -g @plugin 'Erimus-Koo/dracula-tmux'
+
+# available plugins: battery, cpu-usage, git, gpu-usage, ram-usage, tmux-ram-usage, network, network-bandwidth, network-ping, attached-clients, network-vpn, weather, time, spotify-tui, kubernetes-context, synchronize-panes
+set -g @dracula-plugins "synchronize-panes git network-ping cpu-usage ram-usage weather battery time"
+
+# ---- general ------------------------
+# powerline symbols
+set -g @dracula-show-powerline true
+# separator for left
+set -g @dracula-show-left-sep   # █     
+# separator for right symbol (can set any symbol you like as seperator)
+set -g @dracula-show-right-sep   # █     
+set -g @dracula-border-contrast true  # pane edge highlight
+set -g @dracula-status-bg 'gray'
+# ---- left status bar -----------------
+set -g @dracula-show-left-icon '☕️ #S' # before window #S     🔍  
+set -g @dracula-left-icon-padding-left 1
+set -g @dracula-left-icon-padding-right 0
+set -g @dracula-left-icon-margin-right 1
+set -g @dracula-left-icon-bg 'pink'
+set -g @dracula-left-icon-fg 'dark_gray'
+set -g @dracula-left-icon-prefix-on-bg 'red'
+set -g @dracula-left-icon-prefix-on-fg 'white'
+
+# windows flag
+set -g @dracula-show-flags true
+#set -g @dracula-show-flags false
+# inactivty window
+set -g @dracula-window-bg 'gray'
+set -g @dracula-window-fg 'light_purple'
+# activty window
+set -g @dracula-window-current-bg 'green'
+set -g @dracula-window-current-fg 'dark_gray'
+# padding
+set -g @dracula-window-padding-left 0
+set -g @dracula-window-padding-right 0
+set -g @dracula-window-margin-right 1
+# separator mark, set to "" same as the show-sep
+set -g @dracula-window-left-sep ''  #    
+set -g @dracula-window-right-sep ''  #    
+set -g @dracula-window-left-sep-invert false
+# use customized window tag
+set -g @dracula-window-disabled true
+
+# Dracula Color Pallette{
+  white='#f8f8f2'
+  gray='#44475a'
+  dark_gray='#282a36'
+  light_purple='#bd93f9'
+  dark_purple='#6272a4'
+  cyan='#8be9fd'
+  green='#50fa7b'
+  orange='#ffb86c'
+  red='#ff5555'
+  pink='#ff79c6'
+  yellow='#f1fa8c'
+# }
+
+set-window-option -g window-status-format " \
+#[fg=${green}]#I:#W#[fg=${dark_purple}]|>\
+#[fg=${light_purple}]\
+#{?window_zoomed_flag, ,}\
+#(pwd=\"#{pane_current_path}\"; echo \${pwd####*/})\
+"
+
+set-window-option -g window-status-current-format "\
+#[bg=${gray},fg=${green}]#[bg=${green},fg=${dark_gray}]#I:#W\
+#[fg=${green},bg=${light_purple}] \
+#[fg=${yellow}]#{?window_zoomed_flag, ,}\
+#[fg=${dark_gray}]\
+#(pwd=\"#{pane_current_path}\"; echo \${pwd####*/})\
+#[fg=${light_purple},bg=${gray}] "
+
+# ---- status bar ----------------------
+# plugins padding
+set -g @dracula-plugin-padding-left 0
+set -g @dracula-plugin-padding-right 1
+set -g @dracula-plugin-padding-rightmost 1
+
+# ram & cpu
+set -g @dracula-ram-usage-label ""
+set -g @dracula-ram-usage-colors "cyan gray"
+set -g @dracula-cpu-usage-label ""  # 
+set -g @dracula-cpu-display-load false  # T:avg load, F:percent
+set -g @dracula-cpu-usage-colors "red white"
+
+# battery
+set -g @dracula-battery-label ""  #  
+set -g @dracula-battery-colors "dark_gray pink"
+
+# network
+set -g @dracula-ping-server "www.ustc.edu.cn"
+set -g @dracula-ping-rate 1
+set -g @dracula-ping-label ""
+set -g @dracula-network-ping-colors "dark_gray light_purple"
+
+
+# 24-hour format
+set -g @dracula-military-time true
+
+# weather
+set -g @dracula-fixed-location "Xian"
+set -g @dracula-show-fahrenheit false
+set -g @dracula-show-location true
+
+#hide empty plugins
+set -g @dracula-show-empty-plugins false
+# sync
+set -g @dracula-synchronize-panes-label "𝓢"
+
+# highlight focused pane, possible values are:
+#   - true
+#   - false (default)
+#tmux_conf_theme_highlight_focused_pane=false
+# ===============================================
+
+
+
