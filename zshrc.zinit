@@ -1,0 +1,123 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+alias history="history -i" # make history print with date time
+# export HIST_STAMPS="yyyy-mm-dd"  # 可选：定义时间戳格式
+bindkey -e
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/revan_m/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+#
+
+# define language env
+export LANG="zh_CN.UTF-8"
+export LANGUAGE="zh_CN.UTF-8"
+
+# 设置为下划线（underline）
+echo -ne '\e[4 q'
+
+# load starship, a prompt to make zsh beautiful
+eval "$(starship init zsh)"
+
+# enable color support of ls and also add handy aliases
+# if [ -x /usr/bin/dircolors ]; then
+#         test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+#         alias ls='ls --color=auto'
+#         alias dir='dir --color=auto'
+#         alias vdir='vdir --color=auto'
+#
+#         alias grep='grep --color=auto'
+#         alias fgrep='fgrep --color=auto'
+#         alias egrep='egrep --color=auto'
+# fi
+
+# some more ls aliases
+# alias ll='ls -l'
+# alias la='ls -A'
+# alias l='ls -CF'
+
+
+# thefuck alias
+eval "$(thefuck --alias)"
+
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit's installer chunk
+
+# some oh-my-zsh library
+zinit snippet OMZ::lib/completion.zsh
+zinit snippet OMZ::lib/git.zsh
+zinit snippet OMZ::lib/directories.zsh
+
+# plugins
+zinit ice lucid wait='0' atload='_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light mrjohannchang/zsh-interactive-cd # need to install fzf
+# 加载 zsh-z，强制注册补全并刷新缓存
+# 其实时等待 compinit 完毕，然后加载zsh-z，保证zsh-z的不全正常工作
+zinit ice lucid wait="0" atload="compinit && compdef _zshz z"
+zinit light agkozak/zsh-z 
+zinit snippet OMZ::plugins/git/git.plugin.zsh
+zinit snippet OMZ::plugins/safe-paste/safe-paste.plugin.zsh
+zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
+
+# zsh-autosuggestions config
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#87afff"
+
+# homebrew/linuxbrew
+export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
+export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
+export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
+export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
+# setup golang proxy
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
+export GO111MODULE=on
+export GOPROXY=https://mirrors.aliyun.com/goproxy/
+
+# direnv
+eval "$(direnv hook zsh)"
+
+# lsd enhance ls, since I can't install colorls
+# put it after import omz.lib.directories, so it's not overwrited by omz lib
+alias ls="lsd -F"
+alias la="lsd -a"
+alias l="lsd"
+alias ll="lsd -hlF"
+alias lla="lsd -ahlF"
+
+# alias 
+alias lg="lazygit"
+alias t="tmux"
+alias tl="tmux list-session"
+alias ta="tmux attach -t"
+
+# nvim alias
+alias nv="nvim"
+alias v="nvim"
+alias vi="nvim"
+alias vim="nvim"
+
